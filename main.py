@@ -15,38 +15,48 @@ def escolha_opcao():
         """)
   opcao = int(input("Digite a opção: "))
   return opcao
-
   
-def adicionar_item(lista, valor_total, itens, item, valor):
+def adicionar_item(lista, valor_total, item):
   if item in lista:
     print("O item já esta na lista!")
+    
   else:
     item = item.title()
-    lista.append(item)
+    valor = float(input("Digite o valor: "))
+    lista.append({"nome": item, "valor": valor})
     valor_total += valor
-    itens += 1
-        
-  print("Item adicionado com sucesso!")
+    
+    print("Item adicionado com sucesso!")
+    return lista, valor, valor_total
   
-  return lista, valor_total, itens
-  
-def excluir_item(lista, valor_total, itens):
-
+def excluir_item(lista, valor_total):
+  item = input("Digite o item que deseja remover: ").title()
   if item in lista:
-    item = item.title()
     lista.remove(item)
-    itens -= 1
+
     print("O item foi excluido com sucesso!")
+    return lista, valor_total
   else:
     print("O item não existe na lista, portanto nada foi alterado!")
   
   return lista, valor_total
 
-
+def lista_completa(lista, valor_total):
+    resultado = ''
+    for item in lista:
+        item_compra = f"""
+------------------
+Item: {item['nome']}
+Valor: {item['valor']}
+        """
+        resultado += item_compra
+    resultado += f"\nValor total: R${valor_total}"
+    print(resultado)
+    
 def main():
   menu()
   valor_total = 0
-  lista = []
+  lista = [] 
   
   while True :
     
@@ -54,23 +64,24 @@ def main():
     
     if opcao == 1:
       item = input("Nome do item: ")
-      
-      valor = float(input("Valor do item: "))
-      
       adicionar_item(
         lista = lista, 
         valor_total = valor_total, 
-        itens = itens, 
         item = item, 
-        valor = valor
         )
       
     elif opcao == 2: 
       item = input("Digite o item que deseja remover: ")
-      excluir_item(lista, valor_total = valor_total, itens = itens)
+      excluir_item(lista, valor_total = valor_total)
+      
     elif opcao ==3:
-      print(lista)
-      print(valor_total)
-      print(len(lista))
+      lista_completa(lista, valor_total)
+      
+    elif opcao ==4:
+      print("""
+Obrigado por acessar nosso aplicativo!
+
+Volte sempre!
+            """)
 main()
   
